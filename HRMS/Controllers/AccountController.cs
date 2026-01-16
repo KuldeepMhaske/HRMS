@@ -16,7 +16,7 @@ namespace HRMS.Controllers
             _context = context;
         }
 
-        // ================= LOGIN (GET) =================
+        // ================= LOGIN (GET) ================
         [HttpGet]
         public IActionResult Login()
         {
