@@ -2,7 +2,6 @@
 using HRMS.Filters;
 using HRMS.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -41,8 +40,7 @@ namespace HRMS.Controllers
             int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
 
             var employees = _context.Employees
-                .Where(e => e.CreatedByAdminId == adminId)
-                .AsQueryable();
+                .Where(e => e.CreatedByAdminId == adminId);
 
             if (!string.IsNullOrWhiteSpace(search))
             {
@@ -74,10 +72,6 @@ namespace HRMS.Controllers
                 return View(employee);
             }
 
-            employee.Id = _context.Employees.Any()
-                ? _context.Employees.Max(e => e.Id) + 1
-                : 1;
-
             employee.PasswordHash = HashPassword(Password);
             employee.IsActive = true;
             employee.Role = "Employee";
@@ -85,6 +79,7 @@ namespace HRMS.Controllers
             int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
             employee.CreatedByAdminId = adminId;
 
+            // ✅ IDENTITY column → no manual Id assignment
             _context.Employees.Add(employee);
             _context.SaveChanges();
 

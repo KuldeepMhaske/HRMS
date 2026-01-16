@@ -74,19 +74,7 @@ body {
     align-items: center;
     justify-content: center;
 }
-/*input.form-control-lg {
-    border-right: none;
-}
 
-button.btn-lg {
-    border-left: none;
-}
-
-form:hover {
-    transform: scale(1.01);
-    transition: 0.2s ease;
-}*/
-/* Dashboard search bar */
 .search-bar {
     max-width: 420px;
 }

@@ -6,7 +6,6 @@ namespace HRMS.Models
     public class Employee
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public string First_Name { get; set; }
