@@ -3,33 +3,92 @@
     ViewData["Title"] = "Edit Employee";
 }
 
-<h2>Edit Employee</h2>
+<div class="container mt-2" style="max-width: 850px;">
 
-<form method="post">
-    <input type="hidden" asp-for="Id" />
-
-    <div class="row">
-        <div class="col-md-6 mb-2">
-            <label>First Name</label>
-            <input asp-for="First_Name" class="form-control" />
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-warning text-dark py-1">
+            <h6 class="mb-0">✏️ Edit Employee</h6>
         </div>
 
-        <div class="col-md-6 mb-2">
-            <label>Last Name</label>
-            <input asp-for="Last_Name" class="form-control" />
-        </div>
+        <div class="card-body p-2">
+            <form method="post">
+                <input type="hidden" asp-for="Id" />
 
-        <div class="col-md-6 mb-2">
-            <label>Email</label>
-            <input asp-for="Email" class="form-control" />
-        </div>
+                <!-- BASIC INFO -->
+                <div class="row g-1">
+                    <div class="col-md-6">
+                        <label class="form-label small mb-0">First Name</label>
+                        <input asp-for="First_Name" class="form-control form-control-sm" />
+                    </div>
 
-        <div class="col-md-6 mb-2">
-            <label>New Password</label>
-            <input type="password" name="NewPassword" class="form-control" />
+                    <div class="col-md-6">
+                        <label class="form-label small mb-0">Last Name</label>
+                        <input asp-for="Last_Name" class="form-control form-control-sm" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small mb-0">Email</label>
+                        <input asp-for="Email" class="form-control form-control-sm" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small mb-0">Phone</label>
+                        <input asp-for="Phone" class="form-control form-control-sm" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small mb-0">Employee Code</label>
+                        <input asp-for="EmpCode" class="form-control form-control-sm" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small mb-0">Blood Group</label>
+                        <select asp-for="Blood_Group" class="form-select form-select-sm">
+                            <option value="">Select</option>
+                            <option>A+</option>
+                            <option>A-</option>
+                            <option>B+</option>
+                            <option>B-</option>
+                            <option>O+</option>
+                            <option>O-</option>
+                            <option>AB+</option>
+                            <option>AB-</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12">
+                        <label class="form-label small mb-0">Address</label>
+                        <textarea asp-for="Address"
+                                  class="form-control form-control-sm"
+                                  rows="1"></textarea>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small mb-0">Emergency No</label>
+                        <input asp-for="Emergency_No" class="form-control form-control-sm" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small mb-0">New Password</label>
+                        <input type="password"
+                               name="NewPassword"
+                               class="form-control form-control-sm"
+                               placeholder="Optional" />
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between mt-2">
+                    <a asp-action="Employees" class="btn btn-outline-secondary btn-sm">
+                        ⬅ Back
+                    </a>
+
+                    <button type="submit" class="btn btn-warning btn-sm px-3">
+                        💾 Update
+                    </button>
+                </div>
+
+            </form>
         </div>
     </div>
 
-    <button class="btn btn-warning mt-3">Update</button>
-    <a asp-action="Employees" class="btn btn-secondary mt-3">Back</a>
-</form>
+</div>

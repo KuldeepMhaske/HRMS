@@ -28,7 +28,7 @@
                     <!-- BRAND -->
                     <a class="navbar-brand"
                        asp-controller="@(Context.Session.GetString("AuthType") == "Master" ? "Admin" : "Employee")"
-                       asp-action="@(Context.Session.GetString("AuthType") == "Master" ? "Dashboard" : "MyProfile")">
+                       asp-action="@(Context.Session.GetString("AuthType") == "Master" ? "Dashboard" : "Dashboard")">
                         HRMS
                     </a>
                     <!-- ✅ Brand now redirects safely -->
@@ -53,6 +53,20 @@
                                         Dashboard
                                     </a>
                                 </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-controller="Admin"
+                                       asp-action="CreateEmployee">
+                                        Create Employee
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-controller="Admin"
+                                       asp-action="Employees">
+                                        All Employees
+                                    </a>
+                                </li>
                             }
 
                             @if (Context.Session.GetString("AuthType") == "Employee")
@@ -60,10 +74,18 @@
                                 <li class="nav-item">
                                     <a class="nav-link"
                                        asp-controller="Employee"
+                                       asp-action="Dashboard">
+                                        Dashboard
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-controller="Employee"
                                        asp-action="MyProfile">
                                         My Profile
                                     </a>
                                 </li>
+                               
                             }
                         </ul>
 

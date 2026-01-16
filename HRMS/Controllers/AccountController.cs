@@ -1,6 +1,7 @@
 ﻿using HRMS.Data;
 using HRMS.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -26,7 +27,7 @@ namespace HRMS.Controllers
                 return RedirectToAction("Dashboard", "Admin");
 
             if (authType == "Employee")
-                return RedirectToAction("MyProfile", "Employee");
+                return RedirectToAction("Dashboard", "Employee");
 
             return View();
         }
@@ -52,6 +53,7 @@ namespace HRMS.Controllers
                 HttpContext.Session.SetString("AuthType", "Master");
                 HttpContext.Session.SetString("Username", appUser.Username);
                 HttpContext.Session.SetString("UserRole", appUser.Role);
+                HttpContext.Session.SetInt32("AdminId", appUser.Id);
 
                 // ✅ Redirect to AdminController
                 return RedirectToAction("Dashboard", "Admin");
@@ -74,7 +76,7 @@ namespace HRMS.Controllers
                 HttpContext.Session.SetString("Username", employee.First_Name);
                 HttpContext.Session.SetString("UserRole", employee.Role);
 
-                return RedirectToAction("MyProfile", "Employee");
+                return RedirectToAction("Dashboard", "Employee");
             }
 
             ViewBag.Error = "Invalid username or password";

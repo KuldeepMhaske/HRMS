@@ -3,37 +3,113 @@
     ViewData["Title"] = "Employees";
 }
 
-<h2 class="mb-3">Employees</h2>
+<div class="container-fluid mt-3">
 
-<table class="table table-bordered table-striped">
-    <thead class="table-dark">
-        <tr>
-            <th>Emp Code</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Status</th>
-            <th width="300">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var e in Model)
-        {
-            <tr>
-                <td>@e.EmpCode</td>
-                <td>@e.First_Name @e.Last_Name</td>
-                <td>@e.Email</td>
-                <td>
-                    <span class="badge @(e.IsActive ? "bg-success" : "bg-danger")">
-                        @(e.IsActive ? "Active" : "Inactive")
-                    </span>
-                </td>
-                <td>
-                    <a asp-action="EmployeeDetails" asp-route-id="@e.Id" class="btn btn-info btn-sm">Details</a>
-                    <a asp-action="EditEmployee" asp-route-id="@e.Id" class="btn btn-warning btn-sm">Edit</a>
-                    <a asp-action="ResetEmployeePassword" asp-route-id="@e.Id" class="btn btn-dark btn-sm">Reset Password</a>
-                    <a asp-action="DeleteEmployee" asp-route-id="@e.Id" class="btn btn-danger btn-sm">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+    <!-- OUTER CARD -->
+    <div class="card shadow border-0">
+
+        <!-- CARD HEADER -->
+        <div class="card-header bg-white d-flex justify-content-between align-items-center">
+            <h5 class="mb-0">👥 Employees</h5>
+
+            <a asp-action="CreateEmployee" class="btn btn-primary btn-sm">
+                ➕ Add Employee
+            </a>
+        </div>
+
+        <!-- CARD BODY -->
+        <div class="card-body">
+
+            <!-- SEARCH BAR -->
+            <form method="get" class="mb-3">
+                <div class="input-group input-group-sm" style="max-width: 320px;">
+                    <input type="text"
+                           name="search"
+                           value="@ViewBag.Search"
+                           class="form-control"
+                           placeholder="Search by name, code or email..." />
+                    <button class="btn btn-dark">🔍</button>
+                </div>
+            </form>
+
+            <!-- TABLE -->
+            <div class="table-responsive">
+                <table class="table table-sm table-hover align-middle mb-0">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Emp Code</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th class="text-center" style="width: 280px;">Actions</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @if (!Model.Any())
+                        {
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-3">
+                                    No employees found
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            @foreach (var e in Model)
+                            {
+                                <tr>
+                                    <td class="fw-semibold">@e.EmpCode</td>
+
+                                    <td>@e.First_Name @e.Last_Name</td>
+
+                                    <td class="text-muted">@e.Email</td>
+
+                                    <td>
+                                        <span class="badge rounded-pill
+                                                      @(e.IsActive ? "bg-success" : "bg-danger")">
+                                            @(e.IsActive ? "Active" : "Inactive")
+                                        </span>
+                                    </td>
+
+                                    <td class="text-center">
+                                        <div class="btn-group btn-group-sm">
+                                            <a asp-action="EmployeeDetails"
+                                               asp-route-id="@e.Id"
+                                               class="btn btn-outline-info"
+                                               title="Details">
+                                                👁
+                                            </a>
+
+                                            <a asp-action="EditEmployee"
+                                               asp-route-id="@e.Id"
+                                               class="btn btn-outline-warning"
+                                               title="Edit">
+                                                ✏️
+                                            </a>
+
+                                            <a asp-action="ResetEmployeePassword"
+                                               asp-route-id="@e.Id"
+                                               class="btn btn-outline-dark"
+                                               title="Reset Password">
+                                                🔑
+                                            </a>
+
+                                            <a asp-action="DeleteEmployee"
+                                               asp-route-id="@e.Id"
+                                               class="btn btn-outline-danger"
+                                               title="Delete">
+                                                🗑
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>

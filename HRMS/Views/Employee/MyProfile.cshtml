@@ -4,55 +4,82 @@
     ViewData["Title"] = "My Profile";
 }
 
-<h3 class="mb-4">My Profile</h3>
+<div class="container mt-3">
 
-<form asp-action="MyProfile" method="post">
-    <input type="hidden" asp-for="Id" />
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-dark text-white">
+            <h5 class="mb-0">👤 My Profile</h5>
+        </div>
 
-    <table class="table table-bordered">
-        <tr>
-            <th>Employee Code</th>
-            <td>@Model.EmpCode</td>
-        </tr>
+        <div class="card-body">
 
-        <tr>
-            <th>First Name</th>
-            <td>
-                <input asp-for="First_Name" class="form-control" />
-            </td>
-        </tr>
+            <form asp-action="MyProfile" method="post">
+                <input type="hidden" asp-for="Id" />
 
-        <tr>
-            <th>Last Name</th>
-            <td>
-                <input asp-for="Last_Name" class="form-control" />
-            </td>
-        </tr>
+                <div class="row g-3">
 
-        <tr>
-            <th>Email</th>
-            <td>@Model.Email</td>
-        </tr>
+                    <!-- Employee Code -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Employee Code</label>
+                        <input class="form-control" value="@Model.EmpCode" readonly />
+                    </div>
 
-        <tr>
-            <th>Phone</th>
-            <td>@Model.Phone</td>
-        </tr>
+                    <!-- Role -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Role</label>
+                        <input class="form-control" value="@Model.Role" readonly />
+                    </div>
 
-        <tr>
-            <th>Role</th>
-            <td>@Model.Role</td>
-        </tr>
+                    <!-- First Name -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">First Name</label>
+                        <input asp-for="First_Name" class="form-control" />
+                    </div>
 
-        <tr>
-            <th>Address</th>
-            <td>
-                <textarea asp-for="Address" class="form-control"></textarea>
-            </td>
-        </tr>
-    </table>
+                    <!-- Last Name -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Last Name</label>
+                        <input asp-for="Last_Name" class="form-control" />
+                    </div>
 
-    <button type="submit" class="btn btn-primary">
-        Update Profile
-    </button>
-</form>
+                    <!-- Email -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Email</label>
+                        <input class="form-control" value="@Model.Email" readonly />
+                    </div>
+
+                    <!-- Phone -->
+                    <div class="col-md-6">
+                        <label class="form-label fw-semibold">Phone</label>
+                        <input class="form-control" value="@Model.Phone" readonly />
+                    </div>
+
+                    <!-- Address -->
+                    <div class="col-md-12">
+                        <label class="form-label fw-semibold">Address</label>
+                        <textarea asp-for="Address"
+                                  class="form-control"
+                                  rows="3"></textarea>
+                    </div>
+
+                </div>
+
+                <div class="mt-4 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-primary px-4">
+                        💾 Update Profile
+                    </button>
+                </div>
+
+            </form>
+
+            @if (ViewBag.Success != null)
+            {
+                <div class="alert alert-success mt-3 text-center">
+                    @ViewBag.Success
+                </div>
+            }
+
+        </div>
+    </div>
+
+</div>

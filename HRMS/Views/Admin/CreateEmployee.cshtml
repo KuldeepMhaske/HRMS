@@ -3,63 +3,99 @@
     ViewData["Title"] = "Create Employee";
 }
 
-<h2>Create Employee</h2>
+<div class="container-fluid mt-3">
 
-<form method="post">
-    <div class="row">
-        <div class="col-md-6 mb-2">
-            <label>First Name</label>
-            <input asp-for="First_Name" class="form-control" required />
-        </div>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-xl-7">
 
-        <div class="col-md-6 mb-2">
-            <label>Last Name</label>
-            <input asp-for="Last_Name" class="form-control" required />
-        </div>
+            <div class="card shadow border-0">
 
-        <div class="col-md-6 mb-2">
-            <label>Email</label>
-            <input asp-for="Email" class="form-control" required />
-        </div>
-        <div class="col-md-6 mb-2">
-            <label>Phone</label>
-            <input asp-for="Phone" class="form-control" required />
-        </div>
-        <div class="col-md-6 mb-2"> 
-            <label>Emergency_No</label>
-            <input asp-for="Emergency_No" class="form-control" required />
-        </div>
+                <!-- HEADER -->
+                <div class="card-header bg-dark text-white">
+                    <h5 class="mb-0">➕ Create Employee</h5>
+                </div>
 
-        <div class="col-md-6 mb-2">
-            <label>Employee Code</label>
-            <input asp-for="EmpCode" class="form-control" required />
-        </div>
-        <div class="col-md-6 mb-2">
-            <label>Blood Group</label>
-            <select asp-for="Blood_Group" class="form-control" required>
-                <option value="">-- Select Blood Group --</option>
-                <option value="A+">A+</option>
-                <option value="A-">A-</option>
-                <option value="B+">B+</option>
-                <option value="B-">B-</option>
-                <option value="O+">O+</option>
-                <option value="O-">O-</option>
-                <option value="AB+">AB+</option>
-                <option value="AB-">AB-</option>
-            </select>
-        </div>
-        <div class="col-md-12 mb-2">
-            <label>Address</label>
-            <textarea asp-for="Address" class="form-control" required></textarea>
-        </div>
+                <!-- BODY -->
+                <div class="card-body">
 
+                    <form method="post">
+                        <div class="row g-2">
 
-        <div class="col-md-6 mb-2">
-            <label>Password</label>
-            <input type="password" name="Password" class="form-control" required />
+                            <div class="col-md-6">
+                                <label class="form-label">First Name</label>
+                                <input asp-for="First_Name" class="form-control form-control-sm" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Last Name</label>
+                                <input asp-for="Last_Name" class="form-control form-control-sm" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Email</label>
+                                <input asp-for="Email" class="form-control form-control-sm" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Phone</label>
+                                <input asp-for="Phone" class="form-control form-control-sm" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Emergency No</label>
+                                <input asp-for="Emergency_No" class="form-control form-control-sm" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Employee Code</label>
+                                <input asp-for="EmpCode" class="form-control form-control-sm" required />
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Blood Group</label>
+                                <select asp-for="Blood_Group" class="form-select form-select-sm" required>
+                                    <option value="">-- Select --</option>
+                                    <option>A+</option>
+                                    <option>A-</option>
+                                    <option>B+</option>
+                                    <option>B-</option>
+                                    <option>O+</option>
+                                    <option>O-</option>
+                                    <option>AB+</option>
+                                    <option>AB-</option>
+                                </select>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label">Password</label>
+                                <input type="password" name="Password"
+                                       class="form-control form-control-sm" required />
+                            </div>
+
+                            <div class="col-md-12">
+                                <label class="form-label">Address</label>
+                                <textarea asp-for="Address"
+                                          class="form-control form-control-sm"
+                                          rows="2"
+                                          required></textarea>
+                            </div>
+
+                        </div>
+
+                        <!-- ACTIONS -->
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a asp-action="Employees" class="btn btn-secondary btn-sm">
+                                ⬅ Back
+                            </a>
+                            <button class="btn btn-success btn-sm">
+                                💾 Save Employee
+                            </button>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+
         </div>
     </div>
-
-    <button class="btn btn-success mt-3">Save</button>
-    <a asp-action="Employees" class="btn btn-secondary mt-3">Back</a>
-</form>
+</div>

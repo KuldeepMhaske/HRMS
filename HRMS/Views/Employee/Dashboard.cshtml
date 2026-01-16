@@ -1,0 +1,61 @@
+﻿@{
+    ViewData["Title"] = "Employee Dashboard";
+}
+
+<div class="container-fluid mt-3">
+
+    <h4 class="mb-4">👋 Welcome, @Context.Session.GetString("Username")</h4>
+
+    <div class="row g-4">
+
+        <!-- UPDATE PROFILE -->
+        <div class="col-md-4">
+            <a asp-controller="Employee"
+               asp-action="MyProfile"
+               class="text-decoration-none">
+                <div class="card bg-primary text-white shadow dashboard-hover">
+                    <div class="card-body text-center py-4">
+                        <h5 class="mb-1">📝 Update Profile</h5>
+                        <p class="mb-0 small opacity-75">
+                            Edit your personal details
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- LEAVES -->
+        <div class="col-md-4">
+            <a asp-controller="Leave"
+               asp-action="Index"
+               class="text-decoration-none">
+                <div class="card bg-success text-white shadow dashboard-hover">
+                    <div class="card-body text-center py-4">
+                        <h5 class="mb-1">🌴 Leaves</h5>
+                        <p class="mb-0 small opacity-75">
+                            Apply & view leave status
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- DAILY TASK -->
+        <div class="col-md-4">
+            <a asp-controller="Task"
+               asp-action="Index"
+               class="text-decoration-none">
+                <div class="card bg-dark text-white shadow dashboard-hover">
+                    <div class="card-body text-center py-4">
+                        <h5 class="mb-1">📋 Daily Task</h5>
+                        <p class="mb-0 small opacity-75">
+                            View assigned tasks
+                        </p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+    </div>
+
+</div>

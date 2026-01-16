@@ -2,6 +2,7 @@
 using HRMS.Filters;
 using HRMS.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -20,17 +21,28 @@ namespace HRMS.Controllers
         // ================= DASHBOARD =================
         public IActionResult Dashboard()
         {
-            ViewBag.TotalEmployees = _context.Employees.Count();
-            ViewBag.ActiveEmployees = _context.Employees.Count(e => e.IsActive);
-            ViewBag.InactiveEmployees = _context.Employees.Count(e => !e.IsActive);
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
+
+            ViewBag.TotalEmployees = _context.Employees
+                .Count(e => e.CreatedByAdminId == adminId);
+
+            ViewBag.ActiveEmployees = _context.Employees
+                .Count(e => e.CreatedByAdminId == adminId && e.IsActive);
+
+            ViewBag.InactiveEmployees = _context.Employees
+                .Count(e => e.CreatedByAdminId == adminId && !e.IsActive);
 
             return View();
         }
 
         // ================= EMPLOYEE LIST =================
         public IActionResult Employees(string search)
-        {   
-            var employees = _context.Employees.AsQueryable();
+        {
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
+
+            var employees = _context.Employees
+                .Where(e => e.CreatedByAdminId == adminId)
+                .AsQueryable();
 
             if (!string.IsNullOrWhiteSpace(search))
             {
@@ -45,7 +57,6 @@ namespace HRMS.Controllers
             ViewBag.Search = search;
             return View(employees.ToList());
         }
-
 
         // ================= CREATE EMPLOYEE =================
         public IActionResult CreateEmployee()
@@ -71,18 +82,25 @@ namespace HRMS.Controllers
             employee.IsActive = true;
             employee.Role = "Employee";
 
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
+            employee.CreatedByAdminId = adminId;
+
             _context.Employees.Add(employee);
             _context.SaveChanges();
 
-            return RedirectToAction("Employees");
+            return RedirectToAction(nameof(Employees));
         }
 
         // ================= EDIT EMPLOYEE =================
         public IActionResult EditEmployee(int id)
         {
-            var employee = _context.Employees.Find(id);
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
+
+            var employee = _context.Employees
+                .FirstOrDefault(e => e.Id == id && e.CreatedByAdminId == adminId);
+
             if (employee == null)
-                return NotFound();
+                return Unauthorized();
 
             return View(employee);
         }
@@ -91,12 +109,13 @@ namespace HRMS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditEmployee(Employee model, string NewPassword)
         {
-            if (!ModelState.IsValid)
-                return View(model);
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
 
-            var emp = _context.Employees.Find(model.Id);
+            var emp = _context.Employees
+                .FirstOrDefault(e => e.Id == model.Id && e.CreatedByAdminId == adminId);
+
             if (emp == null)
-                return NotFound();
+                return Unauthorized();
 
             emp.First_Name = model.First_Name;
             emp.Last_Name = model.Last_Name;
@@ -117,9 +136,13 @@ namespace HRMS.Controllers
         // ================= EMPLOYEE DETAILS =================
         public IActionResult EmployeeDetails(int id)
         {
-            var employee = _context.Employees.Find(id);
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
+
+            var employee = _context.Employees
+                .FirstOrDefault(e => e.Id == id && e.CreatedByAdminId == adminId);
+
             if (employee == null)
-                return NotFound();
+                return Unauthorized();
 
             return View(employee);
         }
@@ -127,9 +150,13 @@ namespace HRMS.Controllers
         // ================= DELETE EMPLOYEE =================
         public IActionResult DeleteEmployee(int id)
         {
-            var employee = _context.Employees.Find(id);
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
+
+            var employee = _context.Employees
+                .FirstOrDefault(e => e.Id == id && e.CreatedByAdminId == adminId);
+
             if (employee == null)
-                return NotFound();
+                return Unauthorized();
 
             return View(employee);
         }
@@ -138,12 +165,17 @@ namespace HRMS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult DeleteEmployeeConfirmed(int id)
         {
-            var employee = _context.Employees.Find(id);
-            if (employee != null)
-            {
-                _context.Employees.Remove(employee);
-                _context.SaveChanges();
-            }
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
+
+            var employee = _context.Employees
+                .FirstOrDefault(e => e.Id == id && e.CreatedByAdminId == adminId);
+
+            if (employee == null)
+                return Unauthorized();
+
+            _context.Employees.Remove(employee);
+            _context.SaveChanges();
+
             return RedirectToAction(nameof(Employees));
         }
 
@@ -152,9 +184,13 @@ namespace HRMS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ToggleStatus(int id)
         {
-            var emp = _context.Employees.Find(id);
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
+
+            var emp = _context.Employees
+                .FirstOrDefault(e => e.Id == id && e.CreatedByAdminId == adminId);
+
             if (emp == null)
-                return NotFound();
+                return Unauthorized();
 
             emp.IsActive = !emp.IsActive;
             _context.SaveChanges();
@@ -165,9 +201,13 @@ namespace HRMS.Controllers
         // ================= RESET EMPLOYEE PASSWORD =================
         public IActionResult ResetEmployeePassword(int id)
         {
-            var employee = _context.Employees.Find(id);
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
+
+            var employee = _context.Employees
+                .FirstOrDefault(e => e.Id == id && e.CreatedByAdminId == adminId);
+
             if (employee == null)
-                return NotFound();
+                return Unauthorized();
 
             ViewBag.EmployeeName = $"{employee.First_Name} {employee.Last_Name}";
             ViewBag.EmployeeId = employee.Id;
@@ -179,16 +219,13 @@ namespace HRMS.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult ResetEmployeePassword(int id, string NewPassword)
         {
-            if (string.IsNullOrWhiteSpace(NewPassword))
-            {
-                ViewBag.Error = "Password cannot be empty";
-                ViewBag.EmployeeId = id;
-                return View();
-            }
+            int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
 
-            var employee = _context.Employees.Find(id);
+            var employee = _context.Employees
+                .FirstOrDefault(e => e.Id == id && e.CreatedByAdminId == adminId);
+
             if (employee == null)
-                return NotFound();
+                return Unauthorized();
 
             employee.PasswordHash = HashPassword(NewPassword);
             _context.SaveChanges();

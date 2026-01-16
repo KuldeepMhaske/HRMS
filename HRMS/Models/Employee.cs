@@ -24,6 +24,8 @@ namespace HRMS.Models
 
         // ✅ NEW FIELD
         public bool IsActive { get; set; } = true;
+        [Required]
+        public int CreatedByAdminId { get; set; }
     }
 
 }

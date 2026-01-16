@@ -15,7 +15,13 @@ namespace HRMS.Controllers
             _context = context;
         }
 
-        // ================= EMPLOYEE SELF PROFILE =================
+        // ================= EMPLOYEE DASHBOARD =================
+        public IActionResult Dashboard()
+        {
+            return View();
+        }
+
+        // ================= EMPLOYEE PROFILE =================
         [HttpGet]
         public IActionResult MyProfile()
         {
@@ -41,7 +47,6 @@ namespace HRMS.Controllers
             if (employee == null)
                 return NotFound();
 
-            // ✅ Employee can update ONLY safe fields
             employee.First_Name = model.First_Name;
             employee.Last_Name = model.Last_Name;
             employee.Address = model.Address;
