@@ -1,0 +1,143 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - HRMS</title>
+
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/HRMS.styles.css" asp-append-version="true" />
+</head>
+<body>
+
+    @{
+        var isAuthPage =
+        Context.Request.Path.StartsWithSegments("/Account/Login") ||
+        Context.Request.Path.StartsWithSegments("/Account/Signup") ||
+        Context.Request.Path.StartsWithSegments("/Account/ForgotPassword");
+    }
+
+    @if (!isAuthPage)
+    {
+        <!-- ================= NAVBAR ================= -->
+        <header>
+            <nav class="navbar navbar-expand-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
+                <div class="container-fluid">
+
+                    <!-- BRAND -->
+                    <a class="navbar-brand"
+                       asp-controller="@(Context.Session.GetString("AuthType") == "Master" ? "Admin" : "Employee")"
+                       asp-action="@(Context.Session.GetString("AuthType") == "Master" ? "Dashboard" : "MyProfile")">
+                        HRMS
+                    </a>
+                    <!-- ✅ Brand now redirects safely -->
+
+                    <button class="navbar-toggler" type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target=".navbar-collapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+
+                        <!-- LEFT MENU -->
+                        <ul class="navbar-nav flex-grow-1">
+
+                            @if (Context.Session.GetString("AuthType") == "Master")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-controller="Admin"
+                                       asp-action="Dashboard">
+                                        Dashboard
+                                    </a>
+                                </li>
+                            }
+
+                            @if (Context.Session.GetString("AuthType") == "Employee")
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-controller="Employee"
+                                       asp-action="MyProfile">
+                                        My Profile
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+                        <!-- RIGHT MENU -->
+                        <ul class="navbar-nav">
+                            @if (Context.Session.GetString("Username") != null)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle"
+                                       href="#"
+                                       role="button"
+                                       data-bs-toggle="dropdown">
+                                        👤 @Context.Session.GetString("Username")
+                                    </a>
+
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li>
+                                            <span class="dropdown-item-text text-muted">
+                                                Role: @Context.Session.GetString("UserRole")
+                                            </span>
+                                        </li>
+                                        <li><hr class="dropdown-divider" /></li>
+                                        <li>
+                                            <a class="dropdown-item text-danger"
+                                               asp-controller="Account"
+                                               asp-action="Logout">
+                                                Logout
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link"
+                                       asp-controller="Account"
+                                       asp-action="Login">
+                                        Login
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- ================= PAGE CONTENT ================= -->
+        <div class="container-fluid">
+            <main role="main" class="pb-3">
+                @RenderBody()
+            </main>
+        </div>
+
+        <!-- ================= FOOTER ================= -->
+        <footer class="border-top footer text-muted">
+            <div class="container-fluid">
+                &copy; 2025 - HRMS
+            </div>
+        </footer>
+    }
+    else
+    {
+        <!-- ================= AUTH PAGES (FULL SCREEN) ================= -->
+        @RenderBody()
+    }
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

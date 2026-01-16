@@ -1,0 +1,65 @@
+﻿@model HRMS.Models.Employee
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<h2>Create Employee</h2>
+
+<form method="post">
+    <div class="row">
+        <div class="col-md-6 mb-2">
+            <label>First Name</label>
+            <input asp-for="First_Name" class="form-control" required />
+        </div>
+
+        <div class="col-md-6 mb-2">
+            <label>Last Name</label>
+            <input asp-for="Last_Name" class="form-control" required />
+        </div>
+
+        <div class="col-md-6 mb-2">
+            <label>Email</label>
+            <input asp-for="Email" class="form-control" required />
+        </div>
+        <div class="col-md-6 mb-2">
+            <label>Phone</label>
+            <input asp-for="Phone" class="form-control" required />
+        </div>
+        <div class="col-md-6 mb-2"> 
+            <label>Emergency_No</label>
+            <input asp-for="Emergency_No" class="form-control" required />
+        </div>
+
+        <div class="col-md-6 mb-2">
+            <label>Employee Code</label>
+            <input asp-for="EmpCode" class="form-control" required />
+        </div>
+        <div class="col-md-6 mb-2">
+            <label>Blood Group</label>
+            <select asp-for="Blood_Group" class="form-control" required>
+                <option value="">-- Select Blood Group --</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+            </select>
+        </div>
+        <div class="col-md-12 mb-2">
+            <label>Address</label>
+            <textarea asp-for="Address" class="form-control" required></textarea>
+        </div>
+
+
+        <div class="col-md-6 mb-2">
+            <label>Password</label>
+            <input type="password" name="Password" class="form-control" required />
+        </div>
+    </div>
+
+    <button class="btn btn-success mt-3">Save</button>
+    <a asp-action="Employees" class="btn btn-secondary mt-3">Back</a>
+</form>

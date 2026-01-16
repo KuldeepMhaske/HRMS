@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2 class="mb-4">Dashboard</h2>
+
+<!-- 🔍 QUICK SEARCH -->
+<div class="row mb-4">
+    <div class="col-md-5">
+        <form asp-action="Employees" method="get" class="input-group search-bar">
+            <input type="text"
+                   name="search"
+                   class="form-control"
+                   placeholder="Search employee..." />
+
+            <button class="btn btn-dark px-4">
+                🔍
+            </button>
+        </form>
+    </div>
+</div>
+
+
+<!-- 📊 STATS CARDS -->
+<div class="row g-4">
+
+    <div class="col-md-3">
+        <a asp-action="Employees"
+           class="dashboard-card text-white text-decoration-none">
+            <div class="card bg-primary dashboard-hover">
+                <div class="card-body text-center">
+                    <h6>Total Employees</h6>
+                    <h2>@ViewBag.TotalEmployees</h2>
+                </div>
+            </div>
+        </a>
+    </div>
+
+
+    <div class="col-md-3">
+        <div class="card bg-success text-white dashboard-hover">
+            <div class="card-body text-center">
+                <h6>Active</h6>
+                <h2>@ViewBag.ActiveEmployees</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card bg-danger text-white dashboard-hover">
+            <div class="card-body text-center">
+                <h6>Inactive</h6>
+                <h2>@ViewBag.InactiveEmployees</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- ⚡ QUICK ACTIONS -->
+    <div class="col-md-3">
+        <div class="card shadow dashboard-hover">
+            <div class="card-body text-center">
+                <a asp-action="Employees"
+                   class="btn btn-dark w-100 mb-2">
+                    📋 View Employees
+                </a>
+
+                <a asp-action="CreateEmployee"
+                   class="btn btn-primary w-100">
+                    ➕ Add Employee
+                </a>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,16 @@
+﻿@model HRMS.Models.Employee
+@{
+    ViewData["Title"] = "Employee Details";
+}
+
+<h2>Employee Details</h2>
+
+<table class="table table-bordered">
+    <tr><th>Emp Code</th><td>@Model.EmpCode</td></tr>
+    <tr><th>Name</th><td>@Model.First_Name @Model.Last_Name</td></tr>
+    <tr><th>Email</th><td>@Model.Email</td></tr>
+    <tr><th>Phone</th><td>@Model.Phone</td></tr>
+    <tr><th>Status</th><td>@(Model.IsActive ? "Active" : "Inactive")</td></tr>
+</table>
+
+<a asp-action="Employees" class="btn btn-secondary">Back</a>

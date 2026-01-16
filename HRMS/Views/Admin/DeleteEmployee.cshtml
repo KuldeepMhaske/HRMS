@@ -1,0 +1,16 @@
+﻿@model HRMS.Models.Employee
+@{
+    ViewData["Title"] = "Delete Employee";
+}
+
+<h2>Confirm Delete</h2>
+
+<div class="alert alert-danger">
+    Are you sure you want to delete <strong>@Model.First_Name @Model.Last_Name</strong>?
+</div>
+
+<form method="post">
+    <input type="hidden" asp-for="Id" />
+    <button class="btn btn-danger">Delete</button>
+    <a asp-action="Employees" class="btn btn-secondary">Cancel</a>
+</form>

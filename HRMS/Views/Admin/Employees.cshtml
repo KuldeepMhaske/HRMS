@@ -1,0 +1,39 @@
+﻿@model IEnumerable<HRMS.Models.Employee>
+@{
+    ViewData["Title"] = "Employees";
+}
+
+<h2 class="mb-3">Employees</h2>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-dark">
+        <tr>
+            <th>Emp Code</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Status</th>
+            <th width="300">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var e in Model)
+        {
+            <tr>
+                <td>@e.EmpCode</td>
+                <td>@e.First_Name @e.Last_Name</td>
+                <td>@e.Email</td>
+                <td>
+                    <span class="badge @(e.IsActive ? "bg-success" : "bg-danger")">
+                        @(e.IsActive ? "Active" : "Inactive")
+                    </span>
+                </td>
+                <td>
+                    <a asp-action="EmployeeDetails" asp-route-id="@e.Id" class="btn btn-info btn-sm">Details</a>
+                    <a asp-action="EditEmployee" asp-route-id="@e.Id" class="btn btn-warning btn-sm">Edit</a>
+                    <a asp-action="ResetEmployeePassword" asp-route-id="@e.Id" class="btn btn-dark btn-sm">Reset Password</a>
+                    <a asp-action="DeleteEmployee" asp-route-id="@e.Id" class="btn btn-danger btn-sm">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

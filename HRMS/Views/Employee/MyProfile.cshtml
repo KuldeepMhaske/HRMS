@@ -1,0 +1,58 @@
+﻿@model HRMS.Models.Employee
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+
+<h3 class="mb-4">My Profile</h3>
+
+<form asp-action="MyProfile" method="post">
+    <input type="hidden" asp-for="Id" />
+
+    <table class="table table-bordered">
+        <tr>
+            <th>Employee Code</th>
+            <td>@Model.EmpCode</td>
+        </tr>
+
+        <tr>
+            <th>First Name</th>
+            <td>
+                <input asp-for="First_Name" class="form-control" />
+            </td>
+        </tr>
+
+        <tr>
+            <th>Last Name</th>
+            <td>
+                <input asp-for="Last_Name" class="form-control" />
+            </td>
+        </tr>
+
+        <tr>
+            <th>Email</th>
+            <td>@Model.Email</td>
+        </tr>
+
+        <tr>
+            <th>Phone</th>
+            <td>@Model.Phone</td>
+        </tr>
+
+        <tr>
+            <th>Role</th>
+            <td>@Model.Role</td>
+        </tr>
+
+        <tr>
+            <th>Address</th>
+            <td>
+                <textarea asp-for="Address" class="form-control"></textarea>
+            </td>
+        </tr>
+    </table>
+
+    <button type="submit" class="btn btn-primary">
+        Update Profile
+    </button>
+</form>

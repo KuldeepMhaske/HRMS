@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Create Account";
+}
+
+<div class="auth-bg">
+    <div class="card shadow-lg p-4" style="width: 420px; border-radius: 12px;">
+        <h4 class="text-center mb-4">Create Account</h4>
+
+        <form method="post">
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input name="username"
+                       class="form-control"
+                       placeholder="Enter username"
+                       required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password"
+                       name="password"
+                       class="form-control"
+                       placeholder="Enter password"
+                       required />
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Role</label>
+                <select name="role" class="form-control" required>
+                    <option value="">-- Select Role --</option>
+                    <option value="Admin">Admin</option>
+                    <option value="HR">HR</option>
+                </select>
+            </div>
+
+            @if (ViewBag.Error != null)
+            {
+                <div class="alert alert-danger text-center">
+                    @ViewBag.Error
+                </div>
+            }
+
+            <button type="submit" class="btn btn-success w-100">
+                Sign Up
+            </button>
+
+            <a asp-action="Login"
+               class="btn btn-link w-100 mt-3">
+                Already have an account? Login
+            </a>
+        </form>
+    </div>
+</div>

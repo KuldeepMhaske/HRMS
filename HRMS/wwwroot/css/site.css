@@ -1,0 +1,140 @@
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.dashboard-hover {
+    transition: all 0.3s ease;
+}
+
+    .dashboard-hover:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+        cursor: pointer;
+    }
+/* Dashboard clickable cards */
+.dashboard-card {
+    text-decoration: none;
+    display: block;
+}
+
+    .dashboard-card .card {
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .dashboard-card:hover .card {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    }
+
+/* Hover-only cards (non-clickable for now) */
+.dashboard-hover {
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+    .dashboard-hover:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+    }
+/* Login & Signup background */
+.auth-bg {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: url('/images/BG-Main.jpg') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+/*input.form-control-lg {
+    border-right: none;
+}
+
+button.btn-lg {
+    border-left: none;
+}
+
+form:hover {
+    transform: scale(1.01);
+    transition: 0.2s ease;
+}*/
+/* Dashboard search bar */
+.search-bar {
+    max-width: 420px;
+}
+
+    .search-bar .form-control {
+        height: 42px;
+        border-radius: 25px 0 0 25px;
+        padding-left: 16px;
+    }
+
+    .search-bar .btn {
+        height: 42px;
+        border-radius: 0 25px 25px 0;
+    }
+
+    .search-bar .form-control:focus {
+        box-shadow: none;
+        border-color: #0d6efd;
+    }
+
+/* Glassmorphism login card */
+.glass-card {
+    /*    background: rgba(255, 255, 255, 0.15);*/
+    background: rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    color: #fff;
+}
+
+    /* Make inputs readable on glass */
+    .glass-card .form-control {
+        background: rgba(255, 255, 255, 0.85);
+        border: none;
+    }
+
+        .glass-card .form-control:focus {
+            box-shadow: none;
+        }
+
+    /* Links */
+    .glass-card a {
+        color: #e0f2ff;
+    }
+
+        .glass-card a:hover {
+            color: #ffffff;
+        }
+

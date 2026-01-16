@@ -1,0 +1,57 @@
+﻿@model List<string>
+
+<h2>Database Tables</h2>
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">@TempData["Success"]</div>
+}
+
+<a asp-action="CreateTable" class="btn btn-primary mb-3">➕ Create Table</a>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Table Name</th>
+            <th style="width:200px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var table in Model)
+        {
+            <tr>
+                <td>@table</td>
+                <td>
+                    <a asp-action="Columns"
+                       asp-route-tableName="@table"
+                       class="btn btn-sm btn-info">
+                        Columns
+                    </a>
+
+                    @if (!new[] { "Employees", "AppUsers", "__EFMigrationsHistory" }
+                                    .Contains(table, StringComparer.OrdinalIgnoreCase))
+                    {
+                        <form asp-action="DeleteTable"
+                              method="post"
+                              style="display:inline;"
+                              onsubmit="return confirm('⚠️ This will permanently delete the table and ALL its data. Continue?');">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="tableName" value="@table" />
+                            <button class="btn btn-sm btn-danger">
+                                🗑 Delete
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <span class="text-muted ms-2">Protected</span>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

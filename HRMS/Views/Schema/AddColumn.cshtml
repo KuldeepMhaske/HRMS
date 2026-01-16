@@ -1,0 +1,25 @@
+﻿<h2>Add Column - @ViewBag.TableName</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <input type="hidden" name="tableName" value="@ViewBag.TableName" />
+
+    <label>Column Name</label>
+    <input name="columnName" class="form-control" required />
+
+    <label class="mt-2">Data Type</label>
+    <select name="dataType" class="form-control">
+        <option>NVARCHAR(100)</option>
+        <option>INT</option>
+        <option>BIT</option>
+        <option>DATETIME</option>
+    </select>
+
+    <div class="form-check mt-2">
+        <input type="checkbox" name="allowNull" class="form-check-input" />
+        <label class="form-check-label">Allow NULL</label>
+    </div>
+
+    <button class="btn btn-success mt-3">Add Column</button>
+</form>

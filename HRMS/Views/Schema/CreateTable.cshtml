@@ -1,0 +1,10 @@
+﻿<h2>Create New Table</h2>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+
+    <label>Table Name</label>
+    <input name="tableName" class="form-control" required />
+
+    <button class="btn btn-success mt-3">Create</button>
+</form>
