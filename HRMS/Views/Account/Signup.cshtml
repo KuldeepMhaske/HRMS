@@ -6,34 +6,28 @@
     <div class="glass-card p-4" style="width: 380px;">
         <h4 class="text-center mb-4">Create Account</h4>
 
-        <form method="post">
+        <form method="post" id="signupForm">
             <div class="mb-3">
                 <label class="form-label">Username</label>
-                <input name="username"
-                       class="form-control"
-                       placeholder="Enter username"
-                       required />
+                <input name="username" class="form-control" required />
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Password</label>
-                <input type="password"
-                       name="password"
-                       class="form-control"
-                       placeholder="Enter password"
-                       required />
+                <input type="password" name="password" class="form-control" required />
             </div>
 
             <div class="mb-3">
                 <label class="form-label">Role</label>
-                <select name="role"
-                        class="form-control"
-                        required>
+                <select name="role" id="roleSelect" class="form-control" required>
                     <option value="">-- Select Role --</option>
                     <option value="Admin">Admin</option>
                     <option value="HR">HR</option>
                 </select>
             </div>
+
+            <!-- HIDDEN LICENSE FIELD -->
+            <input type="hidden" name="licenseKey" id="licenseKey" />
 
             @if (ViewBag.Error != null)
             {
@@ -46,10 +40,77 @@
                 Create Account
             </button>
 
-            <a asp-action="Login"
-               class="btn btn-primary w-100 mt-2">
+            <a asp-action="Login" class="btn btn-primary w-100 mt-2">
                 Back to Login
             </a>
         </form>
     </div>
 </div>
+
+<!-- LICENSE MODAL -->
+<div class="modal fade" id="licenseModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">🔐 License Verification</h5>
+            </div>
+            <div class="modal-body">
+                <input type="text"
+                       id="licenseInput"
+                       class="form-control"
+                       placeholder="Enter License Key" />
+            </div>
+            <div class="modal-footer">
+                <button type="button"
+                        class="btn btn-success"
+                        onclick="submitWithLicense()">
+                    Verify
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        const form = document.getElementById("signupForm");
+        const roleSelect = document.getElementById("roleSelect");
+
+        form.addEventListener("submit", function (e) {
+            if (roleSelect.value === "Admin" || roleSelect.value === "HR") {
+                e.preventDefault();
+                new bootstrap.Modal(document.getElementById("licenseModal")).show();
+            }
+        });
+
+        function submitWithLicense() {
+            const license = document.getElementById("licenseInput").value;
+            document.getElementById("licenseKey").value = license;
+            form.submit();
+        }
+    </script>
+    <script>
+        const form = document.getElementById("signupForm");
+        const roleSelect = document.getElementById("roleSelect");
+
+        form.addEventListener("submit", function (e) {
+            if (roleSelect.value === "Admin" || roleSelect.value === "HR") {
+                e.preventDefault();
+                new bootstrap.Modal(document.getElementById("licenseModal")).show();
+            }
+        });
+
+        function submitWithLicense() {
+            const license = document.getElementById("licenseInput").value.trim();
+
+            if (!license) {
+                alert("Please enter license key");
+                return;
+            }
+
+            document.getElementById("licenseKey").value = license;
+            form.submit();
+        }
+    </script>
+
+}

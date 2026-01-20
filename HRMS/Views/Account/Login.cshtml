@@ -48,3 +48,16 @@
         </form>
     </div>
 </div>
+
+<!-- ✅ SUCCESS POPUP AFTER SIGNUP -->
+@if (TempData["Success"] != null)
+{
+    <script>
+        Swal.fire({
+            icon: 'success',
+            title: 'Success',
+            text: '@TempData["Success"]',
+            confirmButtonColor: '#28a745'
+        });
+    </script>
+}

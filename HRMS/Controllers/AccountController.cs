@@ -1,7 +1,7 @@
 ﻿using HRMS.Data;
 using HRMS.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -10,17 +10,18 @@ namespace HRMS.Controllers
     public class AccountController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly IConfiguration _configuration;
 
-        public AccountController(AppDbContext context)
+        public AccountController(AppDbContext context, IConfiguration configuration)
         {
             _context = context;
+            _configuration = configuration;
         }
 
         // ================= LOGIN (GET) =================
         [HttpGet]
         public IActionResult Login()
         {
-            // ✅ Redirect based on role if already logged in
             var authType = HttpContext.Session.GetString("AuthType");
 
             if (authType == "Master")
@@ -44,7 +45,6 @@ namespace HRMS.Controllers
 
             string hash = HashPassword(password);
 
-            // ================= ADMIN / MASTER LOGIN =================
             var appUser = _context.AppUsers
                 .FirstOrDefault(x => x.Username == username && x.PasswordHash == hash);
 
@@ -55,11 +55,9 @@ namespace HRMS.Controllers
                 HttpContext.Session.SetString("UserRole", appUser.Role);
                 HttpContext.Session.SetInt32("AdminId", appUser.Id);
 
-                // ✅ Redirect to AdminController
                 return RedirectToAction("Dashboard", "Admin");
             }
 
-            // ================= EMPLOYEE LOGIN =================
             var employee = _context.Employees
                 .FirstOrDefault(x => x.Email == username && x.PasswordHash == hash);
 
@@ -67,7 +65,7 @@ namespace HRMS.Controllers
             {
                 if (!employee.IsActive)
                 {
-                    ViewBag.Error = "Your account is deactivated. Please contact HR.";
+                    ViewBag.Error = "Your account is deactivated.";
                     return View();
                 }
 
@@ -94,7 +92,7 @@ namespace HRMS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Signup(string username, string password, string role)
+        public IActionResult Signup(string username, string password, string role, string licenseKey)
         {
             if (string.IsNullOrWhiteSpace(username) ||
                 string.IsNullOrWhiteSpace(password) ||
@@ -102,6 +100,18 @@ namespace HRMS.Controllers
             {
                 ViewBag.Error = "All fields are required";
                 return View();
+            }
+
+            // 🔐 LICENSE CHECK
+            if (role == "Admin" || role == "HR")
+            {
+                var validLicense = _configuration["AdminLicenseKey"];
+
+                if (licenseKey != validLicense)
+                {
+                    ViewBag.Error = "Invalid License Key";
+                    return View();
+                }
             }
 
             if (_context.AppUsers.Any(x => x.Username == username))
@@ -120,6 +130,7 @@ namespace HRMS.Controllers
             _context.AppUsers.Add(user);
             _context.SaveChanges();
 
+            TempData["Success"] = "Profile created successfully";
             return RedirectToAction("Login");
         }
 
@@ -127,37 +138,6 @@ namespace HRMS.Controllers
         public IActionResult Logout()
         {
             HttpContext.Session.Clear();
-            return RedirectToAction("Login");
-        }
-
-        // ================= FORGOT PASSWORD (ADMIN ONLY) =================
-        [HttpGet]
-        public IActionResult ForgotPassword()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult ForgotPassword(string username, string newPassword)
-        {
-            if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(newPassword))
-            {
-                ViewBag.Error = "All fields are required";
-                return View();
-            }
-
-            var admin = _context.AppUsers.FirstOrDefault(x => x.Username == username);
-            if (admin == null)
-            {
-                ViewBag.Error = "Admin account not found";
-                return View();
-            }
-
-            admin.PasswordHash = HashPassword(newPassword);
-            _context.SaveChanges();
-
-            TempData["Success"] = "Password reset successfully. Please login.";
             return RedirectToAction("Login");
         }
 
