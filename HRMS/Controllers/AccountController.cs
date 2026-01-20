@@ -18,7 +18,7 @@ namespace HRMS.Controllers
             _configuration = configuration;
         }
 
-        // ================= LOGIN (GET) =================
+        // ================= LOGIN (GET) ================
         [HttpGet]
         public IActionResult Login()
         {
