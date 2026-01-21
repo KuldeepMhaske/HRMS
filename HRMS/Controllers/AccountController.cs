@@ -1,5 +1,6 @@
 ﻿using HRMS.Data;
 using HRMS.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Security.Cryptography;
@@ -59,7 +60,7 @@ namespace HRMS.Controllers
             }
 
             var employee = _context.Employees
-                .FirstOrDefault(x => x.Email == username && x.PasswordHash == hash);
+     .FirstOrDefault(x => x.Email == username && x.PasswordHash == hash);
 
             if (employee != null)
             {
@@ -69,13 +70,19 @@ namespace HRMS.Controllers
                     return View();
                 }
 
+                var roleName = _context.Roles
+                    .Where(r => r.Id == employee.RoleId)
+                    .Select(r => r.RoleName)
+                    .FirstOrDefault();
+
                 HttpContext.Session.SetString("AuthType", "Employee");
                 HttpContext.Session.SetInt32("EmployeeId", employee.Id);
                 HttpContext.Session.SetString("Username", employee.First_Name);
-                HttpContext.Session.SetString("UserRole", employee.Role);
+                HttpContext.Session.SetString("UserRole", roleName ?? "Employee");
 
                 return RedirectToAction("Dashboard", "Employee");
             }
+
 
             ViewBag.Error = "Invalid username or password";
             return View();

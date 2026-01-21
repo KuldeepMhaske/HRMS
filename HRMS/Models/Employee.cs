@@ -8,23 +8,36 @@ namespace HRMS.Models
         [Key]
         public int Id { get; set; }
 
+        [Required]
         public string First_Name { get; set; }
+
+        [Required]
         public string Last_Name { get; set; }
 
+        [Required, EmailAddress]
         public string Email { get; set; }
+
         public string Phone { get; set; }
         public string EmpCode { get; set; }
         public string Address { get; set; }
         public string Emergency_No { get; set; }
         public string Blood_Group { get; set; }
 
-        public string Role { get; set; }
+        // 🔐 AUTH
+        [Required]
         public string PasswordHash { get; set; }
 
-        // ✅ NEW FIELD
         public bool IsActive { get; set; } = true;
+
+        // 🔗 ROLE FOREIGN KEY
+        [Required]
+        public int RoleId { get; set; }
+
+        [ForeignKey(nameof(RoleId))]
+        public Role Role { get; set; }
+
+        // 🔗 ADMIN WHO CREATED THIS EMPLOYEE
         [Required]
         public int CreatedByAdminId { get; set; }
     }
-
 }

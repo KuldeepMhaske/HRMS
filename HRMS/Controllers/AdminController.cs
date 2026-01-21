@@ -74,17 +74,23 @@ namespace HRMS.Controllers
 
             employee.PasswordHash = HashPassword(Password);
             employee.IsActive = true;
-            employee.Role = "Employee";
+
+            // ✅ Assign ROLE via RoleId
+            employee.RoleId = _context.Roles
+                        .Where(r => r.RoleName == "Employee")
+                        .Select(r => r.Id)
+                        .First();
+
 
             int adminId = HttpContext.Session.GetInt32("AdminId")!.Value;
             employee.CreatedByAdminId = adminId;
 
-            // ✅ IDENTITY column → no manual Id assignment
             _context.Employees.Add(employee);
             _context.SaveChanges();
 
             return RedirectToAction(nameof(Employees));
         }
+
 
         // ================= EDIT EMPLOYEE =================
         public IActionResult EditEmployee(int id)
