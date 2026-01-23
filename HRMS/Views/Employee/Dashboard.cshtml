@@ -26,23 +26,20 @@
 
         <!-- LEAVES -->
         <div class="col-md-4">
-            <a asp-controller="Leave"
-               asp-action="Index"
-               class="text-decoration-none">
+            <a asp-controller="Leave" asp-action="Index" class="dashboard-card">
                 <div class="card bg-success text-white shadow dashboard-hover">
                     <div class="card-body text-center py-4">
-                        <h5 class="mb-1">🌴 Leaves</h5>
-                        <p class="mb-0 small opacity-75">
-                            Apply & view leave status
-                        </p>
+                        <h5>🌴 Leaves</h5>
+                        <p class="mb-0 small">Apply & view leave status</p>
                     </div>
                 </div>
             </a>
+
         </div>
 
         <!-- DAILY TASK -->
         <div class="col-md-4">
-            <a asp-controller="Task"
+            <a asp-controller="EmployeeTask"
                asp-action="Index"
                class="text-decoration-none">
                 <div class="card bg-dark text-white shadow dashboard-hover">

@@ -2,7 +2,12 @@
 @{
     ViewData["Title"] = "Employees";
 }
-
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Success"]
+    </div>
+}
 <div class="container-fluid mt-3">
 
     <!-- OUTER CARD -->
@@ -11,7 +16,7 @@
         <!-- CARD HEADER -->
         <div class="card-header bg-white d-flex justify-content-between align-items-center">
             <h5 class="mb-0">👥 Employees</h5>
-
+           
             <a asp-action="CreateEmployee" class="btn btn-primary btn-sm">
                 ➕ Add Employee
             </a>
@@ -73,7 +78,15 @@
                                     </td>
 
                                     <td class="text-center">
+
                                         <div class="btn-group btn-group-sm">
+                                            <a asp-controller="AdminTask"
+                                                asp-action="Assign"
+
+                                              
+                                               class="btn btn-sm btn-outline-primary">
+                                               Add Task
+                                            </a>
                                             <a asp-action="EmployeeDetails"
                                                asp-route-id="@e.Id"
                                                class="btn btn-outline-info"
@@ -103,6 +116,7 @@
                                             </a>
                                         </div>
                                     </td>
+
                                 </tr>
                             }
                         }

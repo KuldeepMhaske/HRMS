@@ -18,6 +18,7 @@
 
   <ItemGroup>
     <Folder Include="EF\" />
+    <Folder Include="Views\NewFolder\" />
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,70 @@
+﻿@model IEnumerable<HRMS.Models.DailyTask>
+@{
+    ViewData["Title"] = "Daily Tasks";
+}
+
+<div class="container-fluid mt-3">
+
+    <h4 class="mb-3">📋 My Daily Tasks</h4>
+
+    <div class="card shadow-sm border-0">
+        <div class="card-body p-0">
+
+            <table class="table table-sm table-hover align-middle mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Title</th>
+                        <th>Description</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th width="120">Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    @if (!Model.Any())
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-3">
+                                No tasks assigned
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        foreach (var task in Model)
+                        {
+                            <tr>
+                                <td class="fw-semibold">@task.Title</td>
+                                <td class="text-muted">@task.Description</td>
+                                <td>@task.TaskDate.ToString("dd-MMM-yyyy")</td>
+
+                                <td>
+                                    <span class="badge
+                                                @(task.Status == "Completed" ? "bg-success" :
+                                                                                    task.Status == "InProgress" ? "bg-warning" : "bg-secondary")">
+                                        @task.Status
+                                    </span>
+                                </td>
+
+                                <td>
+                                    @if (task.Status != "Completed")
+                                    {
+                                        <form asp-action="Complete" method="post">
+                                            <input type="hidden" name="id" value="@task.Id" />
+                                            <button class="btn btn-sm btn-outline-success">
+                                                ✔ Done
+                                            </button>
+                                        </form>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
+</div>

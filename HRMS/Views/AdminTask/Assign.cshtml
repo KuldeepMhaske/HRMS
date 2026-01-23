@@ -1,0 +1,66 @@
+﻿@model HRMS.Models.DailyTask
+@{
+    ViewData["Title"] = "Assign Task";
+    var employees = ViewBag.Employees as List<HRMS.Models.Employee>;
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-body">
+
+            <h5 class="mb-3">📋 Assign Task to Employee</h5>
+
+            @* @if (TempData["Success"] != null)
+            {
+                <div class="alert alert-success">
+                    @TempData["Success"]
+                </div>
+            } *@
+
+            <form method="post">
+
+                <div class="mb-3">
+                    <label class="form-label">Employee</label>
+                    <select asp-for="EmployeeId" class="form-control" required>
+                        <option value="">-- Select Employee --</option>
+                        @foreach (var emp in employees)
+                        {
+                            <option value="@emp.Id">
+                                @emp.First_Name @emp.Last_Name (@emp.EmpCode)
+                            </option>
+                        }
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Task Title</label>
+                    <input asp-for="Title" class="form-control" required />
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control"></textarea>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Task Date</label>
+                    <input asp-for="TaskDate"
+                           type="date"
+                           class="form-control"
+                           value="@DateTime.Today.ToString("yyyy-MM-dd")"
+                           required />
+                </div>
+
+                <button class="btn btn-success">
+                    Assign Task
+                </button>
+
+                <a asp-action="Index" class="btn btn-secondary ms-2">
+                    Back
+                </a>
+
+            </form>
+
+        </div>
+    </div>
+</div>
