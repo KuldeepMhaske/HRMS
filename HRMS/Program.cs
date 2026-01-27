@@ -3,32 +3,48 @@ using HRMS.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// ================= SERVICES =================
 builder.Services.AddControllersWithViews();
-builder.Services.AddSession();
 
-
-
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection")
+    )
+);
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// ================= MIDDLEWARE =================
+
+// REQUIRED for sub-folder hosting
+app.UsePathBase("/HRMS");
+
+// Error handling
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
+    app.UseHsts();
 }
+
 app.UseStaticFiles();
-app.UseSession();
 
 app.UseRouting();
 
+app.UseSession();
+
 app.UseAuthorization();
 
+// ================= ROUTING =================
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Admin}/{action=Dashboard}/{id?}");
+    pattern: "{controller=Admin}/{action=Dashboard}/{id?}"
+);
 
 app.Run();
